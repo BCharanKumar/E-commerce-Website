@@ -1,0 +1,81 @@
+
+{% extends 'Theme.html' %}
+
+{% block main %}
+
+
+    <div class="row ">
+        <!--Category list columns-->
+        <div class="col-3 ">
+            <div class="card mt-4" style="position: sticky; top: 100px; z-index: 1000;">
+                <div class="card-body">
+        <div class="list-group  shadow m-4" style="width: 70%;">
+            <a href="{% url 'home' %}" >
+                <button  class="list-group-item list-group-item-action list-group-item-danger mb-2 shadow" style="border-radius: 10px;">All Products</button>
+            </a>
+            {% for i in category %}
+            <a href="{% url 'home' %}?category={{i.id}}" >
+                <button type="button" class="list-group-item list-group-item-action list-group-item-danger mb-2 shadow" style="border-radius: 10px;">
+                {{i.product_category}}
+            </button>
+            </a>
+            {% endfor %}
+        </div>
+        </div>
+        </div>
+    </div>
+    
+    <!--Products list columns-->
+    <div class="col-9">
+        <div class="row">
+            {% for i in products %} 
+                <div class="col-md-4 mt-4">
+                     <div class="card mb-5 shadow hover-effect"  style="height: 400px; width: 100%; text-align: center;">
+        
+                        <div class="card-header mt-3">
+        
+                            <img src="{{i.image.url}}" alt="" class="img-thumbnail" width="130px" height="190px">
+        
+                        </div>
+        
+                        <div class="card-body">
+                            <!--
+                            <p>
+                                <span style="color: red; font-weight: bold;">-83% Off</span>
+                                <span style="font-size: 24px; font-weight: bold;">₹1,499</span>
+                                
+                                
+                                M.R.P.: <span style="text-decoration: line-through;">₹8,999.00</span>
+                                </p>
+                            
+                            -->
+                                <h3 style="text-align: center;color: red; font-weight: bold;">Price:{{i.price}}</h3>
+                                <h3 style="text-align: center;color: blue; font-weight: bold;">{{i.name}}</h3>
+<h4>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star "></span>
+                                
+                            </h4>
+                        </div>
+        
+                        <div class="card-footer">
+                            <div class="button-container">
+                            <button type="button" class="btn btn-primary"">Add to card</button>
+        
+                            <button style="float: right;" type="button" class="btn btn-info" >Buy Now</button>
+                        </div>
+                    </div>
+        
+                 </div>
+                    
+             </div>
+             {% endfor %} 
+         </div>
+    </div>
+</div>
+    
+
+{% endblock %}

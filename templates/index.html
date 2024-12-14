@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+    <h1>
+        My Products
+    </h1>
+    
+    <table border="5" width="80%">
+        <tr>
+            <td>image</td>
+            <td>price</td>
+            <td>name</td>
+            <td>Description</td>
+           
+            
+        </tr>
+      
+            {% for i in products %}
+            <tr> 
+                
+                <td><img src="{{i.image.url}}" alt="Not Found" width="250px" height="250px"></td>
+                <td>{{i.price}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.desc}}</td>
+                 
+
+        </tr>
+        {% endfor %}
+    </table>
+    </center>
+</body>
+</html>

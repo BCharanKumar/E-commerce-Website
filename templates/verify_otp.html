@@ -1,0 +1,63 @@
+{% extends 'Theme.html '%}
+
+{% block main %}
+
+
+
+<div class="container">
+    <div class="row m-5">
+        <div class="col-5 mx-auto">
+            <div class="border shadow p-5">
+
+
+{% if error_msg %}
+
+
+<div class="container d-flex flex-column justify-content-center align-items-center vh-100">
+
+<div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+
+<h1 class="text-center text-primary mb-4">Verify OTP</h1>
+
+<div class="alert alert-danger text-center" role="alert">
+
+{{ error_msg }}
+
+</div>
+
+
+
+{% endif %}
+
+<h1>  OTP Page <hr> </h1>
+
+
+<form method="POST" class="border shadow">
+
+{% csrf_token %}
+
+<div class="form-gorup m-2">
+    <div class=" p-4">
+<div class="mb-3">
+
+<label for="otp" class="form-label">Enter OTP</label>
+
+<input type="text" name="otp" id="otp" class="form-control" placeholder="Enter your OTP"
+
+</div>
+<br>
+
+<div class="form-gorup">
+<button type="submit" class="btn btn-primary w-100">Verify</button>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+{% endblock %}
