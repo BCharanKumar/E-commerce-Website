@@ -49,17 +49,32 @@ class Customer(models.Model):
             return Customer.objects.get(email=email)
         except:
             return False
-        
 
-class CartItem(models.Model):
+
+
+class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=0)
-    customer= models.ForeignKey(Customer, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    def _str_(self):
-        return f'{self.quantity} x {self.product.name}'
+    def __str__(self):
+        return f"{self.product.name} - {self.quantity}"
 
-    
 
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    complete = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.customer.first_name} - {self.created_at}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.quantity}"
 

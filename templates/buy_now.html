@@ -1,0 +1,17 @@
+
+{% extends 'Theme.html' %}
+
+
+{% block main %}
+<center>
+<img src="{{ product.image.url }}" alt="{{ i.product.name }}" width="250" height="250" class="mt-3">
+  <h1>Buy Now: {{ product.name }}</h1>
+  <p>Price: {{ product.price }}</p>
+  <form action="{% url 'buy_now' product.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Buy Now</button>
+  </form>
+</center>
+{% endblock %}
+
+

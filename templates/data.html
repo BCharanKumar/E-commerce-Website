@@ -63,9 +63,17 @@
         
                         <div class="card-footer">
                             <div class="button-container">
-                            <button type="button" class="btn btn-primary"">Add to card</button>
-        
-                            <button style="float: right;" type="button" class="btn btn-info" >Buy Now</button>
+                                <button type="button" class="btn btn-danger" style="float: left;">
+                                    {% if i.id %}
+                                      <a href="{% url 'add_to_cart' i.id %}"  style="float: left;">Add to card</a>
+                                    {% else %}
+                                      <a href="#">Add to card</a>
+                                    {% endif %}
+                                  </button>
+                                  
+                                  
+                                  <a href="{% url 'buy_now' i.id %}" style="float: right;">
+                            <button style="float: right;" type="button" class="btn btn-info" >Buy Now</button></a>
                         </div>
                     </div>
         
