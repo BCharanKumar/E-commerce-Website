@@ -12,3 +12,13 @@ class ProductSearchForm(forms.Form):
         else:
             return Product.objects.all()
 
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['customer', 'complete']
+        widgets = {
+            'complete': forms.CheckboxInput(attrs={'style': 'width: 15px; height: 15px;'})
+        }
+

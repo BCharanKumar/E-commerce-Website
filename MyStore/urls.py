@@ -40,6 +40,10 @@ urlpatterns = [
     path('cart/',view_cart, name='view_cart'),
     path('buy-now/<int:product_id>/',buy_now, name='buy_now'),
     path('search/',search_products, name='search_products'),
+    path('checkout/',checkout, name='checkout'),
+    path('order_address/',order_address, name='order_address'),
+
+    path('thank_you/',thank_you, name='thank_you'),
 
 
 

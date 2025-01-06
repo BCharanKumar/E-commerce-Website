@@ -78,3 +78,15 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.product.name} - {self.quantity}"
 
+
+class OrderAddress(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    mobile = models.CharField(max_length=15)
+    address_line_1 = models.CharField(max_length=150)
+    address_line_2 = models.CharField(max_length=150, blank=True)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    pincode = models.CharField(max_length=10)
+   
+

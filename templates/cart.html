@@ -4,14 +4,19 @@
 {% block title %}
 <title>Your Cart</title>
 {% endblock %}
+
 {% block main %}
 {% load my_tags %}
 <div class="container">
-{% if request.session.id == customer.id %}
+  
+        {% csrf_token %}
+        {% if items %}
+        
 <h3 class="d-flex justify-content-center mb-5 mt-2">Your Shopping Cart</h3>
 <table class="table" style="margin: 3px;font-size: x-large;">
 <thead>
-<tr>    
+<tr>   
+    <th>select</th> 
 <th>Image</th>
 <th>Name</th>
 <th>Price</th>
@@ -21,9 +26,14 @@
 </tr>
 </thead>
 <tbody>
-{% if items %}
+
 {% for i in items %}
 <tr>
+    
+    <td>
+        <input type="checkbox" name="selected_items" value="{{ i.id }}" style="width: 15%;">
+        </td>   
+        
 <td><img src="{{ i.product.image.url }}" alt="{{ i.product.name }}" width="80" height="80"></td>
 <td>{{ i.product.name }}</td>
 <td>₹{{ i.product.price }}</td>
@@ -35,40 +45,33 @@
 <button type="submit" style="background-color: red;"><i class="bi bi-trash3-fill"></i></button>
 </form>
 {{ i.quantity }}
+
 <form action="{% url 'increase_cart_quantity' %}" method="post" style="display:inline;padding-top: 5px;">
 {% csrf_token %}
 <input type="hidden" name="item_id" value="{{ i.id }}">
 <button type="submit" class="bg-success" ><i class="bi bi-plus-lg"></i></button>
 </form>
+
 </div>
 </td>
+    
 <td>₹{{ i.product.price|multiply:i.quantity }}</td>
 <td><a href="{% url 'remove_from_cart' i.id %}" style="color: blue;">Remove</a></td>
 </tr>
 {% endfor %}
-{% else %}
-<h3 class="d-flex justify-content-center mb-5 mt-2"> Your Cart is Empty..</h3>
-{% endif %}
 </tbody>
 </table>
-{% if items %}
 <p><strong><h3>Total:</strong> ₹{{ total_price }}</h3></p>
-{% endif %}
+<button type="submit" class="btn btn-primary" style="display: inline;">Update Total</button>
+
+    <button class="btn btn-danger" style="float: right;"><a href="{% url 'order_address' %}">Add address</a></button>
+
+<br>
 {% else %}
 <h3 class="d-flex justify-content-center mb-5 mt-2"> Your Cart is Empty..</h3>
-<table class="table">
-    <thead>
-    <tr>
-    <th>Image</th>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Quantity</th>
-    <th>Total</th>
-    <th>Action</th>
-    </tr>
-    </thead>
-        
     
 {% endif %}
+
+
 </div>
 {% endblock %}

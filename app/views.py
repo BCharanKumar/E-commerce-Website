@@ -121,8 +121,15 @@ def login_user(request):
         
         #Here Checking  of the email is found or not 
         #User=Customer.getemail(email)
-        User=Customer.objects.get(email=email)
-        #print(email)
+        
+        try:
+            User = Customer.objects.get(email=email)
+        except Customer.DoesNotExist:
+            error_msg = 'Invalid Email'
+            d = {'error': error_msg}
+            return render(request, 'login.html',d)
+
+        print(email)
         #print(Users.email)
         error_msg=None
         if User:
@@ -140,7 +147,7 @@ def login_user(request):
                           [email],
                           fail_silently=False)
                 
-                #return redirect('verify_otp')
+                return redirect('verify_otp')
                 return redirect('home')
             else:
                 error_msg='Invalid Password'
@@ -198,35 +205,39 @@ def increase_cart_quantity(request):
         item.save()
         return redirect('view_cart')
     else:
+        
         return redirect('view_cart')
     
 def decrease_cart_quantity(request):
     if request.method == 'POST':
         item_id = request.POST.get('item_id')
         item = Cart.objects.get(id=item_id)
-        if item.quantity > 1:
+        if item.quantity > 0:
             item.quantity -= 1
             item.save()
+        else:
+            if  item.quantity==0:
+                item.delete()
         return redirect('view_cart')
     else:
         return redirect('view_cart')
 
 
 
-'''
-def view_cart(request):
-    if 'email' in request.session:
-        email = request.session['email']
-        customer = Customer.getemail(email)
-        items = Cart.objects.filter(customer=customer)
-        total_price = 0
-        for item in items:
-            total_price += item.product.price * item.quantity
-        return render(request, 'cart.html', {'items': items, 'total_price': total_price})
-    else:
-        return redirect('login_user')
-'''
 
+# def view_cart(request):
+#     if 'email' in request.session:
+#         email = request.session['email']
+#         customer = Customer.getemail(email)
+#         items = Cart.objects.filter(customer=customer)
+#         total_price = 0
+#         for item in items:
+#             total_price += item.product.price * item.quantity
+#         return render(request, 'cart.html', {'items': items, 'total_price': total_price})
+#     else:
+#         return redirect('login_user')
+
+# '''
 def view_cart(request):
     if 'email' in request.session:
         email = request.session['email']
@@ -250,6 +261,25 @@ def view_cart(request):
     else:
         return redirect('login_user')
 
+# def view_cart(request):
+#     if request.user.is_authenticated:
+#         customer = request.user.customer
+#     else:
+#         customer_id = request.session['customer_id']
+#         customer = Customer.objects.get(id=customer_id)
+
+#     items = Cart.objects.filter(customer=customer)
+#     total_price = 0
+
+#     if request.method == 'POST':
+#         selected_items = request.POST.getlist('selected_items')
+#         for item_id in selected_items:
+#             item = Cart.objects.get(id=item_id)
+#             total_price += item.product.price * item.quantity
+
+#     return render(request, 'cart.html', {'items': items, 'total_price': total_price})
+
+
 
 
 def buy_now(request, product_id):
@@ -262,7 +292,7 @@ def buy_now(request, product_id):
             order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
             order_item.quantity += 1
             order_item.save()
-            return redirect('payment_gateway')
+            return redirect('order_address')
         else:
             return redirect('login_user')
     else:
@@ -284,12 +314,109 @@ from .models import Cart
 
 
 
-def cart_count(request):
+# def cart_count(request):
 
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        cart_count = Cart.objects.filter(customer=customer).count()
-        return {'cart_count': cart_count}
+#     if request.user.is_authenticated:
+#         customer = request.user.customer
+#         cart_count = Cart.objects.filter(customer=customer).count()
+#         return {'cart_count': cart_count}
+#     else:
+#         return {'cart_count': 0}
+def checkout(request):
+    if request.method == 'POST':
+        selected_items = request.POST.getlist('selected_items')
+        total_price = 0
+        for item_id in selected_items:
+            item = Cart.objects.get(id=item_id)
+            total_price += item.product.price * item.quantity
+
+        if request.user.is_authenticated:
+            customer = request.user.customer
+        else:
+            customer_id = request.session['customer_id']
+            customer = Customer.objects.get(id=customer_id)
+
+        order = Order(customer=customer)
+        order.save()
+        for item_id in selected_items:
+            item = Cart.objects.get(id=item_id)
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity
+            )
+            item.delete()
+        return redirect('thank_you')
     else:
-        return {'cart_count': 0}
+        return redirect('view_cart')
 
+
+
+
+
+
+# def create_order(request):
+    
+#     if request.method == 'POST':
+#         form = OrderForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('thank_you')
+#     else:
+#         form = OrderForm()
+#     return render(request, 'create_order.html', {'form': form})
+
+def order_address(request):
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        mobile = request.POST['mobile']
+        address_line_1 = request.POST['address_line_1']
+        address_line_2 = request.POST['address_line_2']
+        city = request.POST['city']
+        state = request.POST['state']
+        pincode = request.POST['pincode']
+
+        # Save the data to database
+        OrderAddress.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            mobile=mobile,
+            address_line_1=address_line_1,
+            address_line_2=address_line_2,
+            city=city,
+            state=state,
+            pincode=pincode
+        )
+        
+         # Send email to customer
+        subject = 'Order Successful'
+        message = f'Dear {first_name} {last_name},\n\nYour order has been successfully placed. We will deliver your order to the following address:\n\n{address_line_1}, {address_line_2}\n{city}, {state} - {pincode}\n\nThank you for shopping with us!'
+        from_email = settings.EMAIL_HOST_USER
+        to_email = [request.POST['email']]  # Assuming email is also a field in the form
+        send_mail(subject, message, from_email, to_email, fail_silently=False)
+ 
+        userValues={
+            'first_name':first_name,
+            'last_name':last_name,
+            'mobile':mobile,
+            'address_line_1':address_line_1,
+            'address_line_2':address_line_2,
+            'city':city,
+            'state':state,
+            'pincode':pincode
+        }
+
+        error_msg=None
+        if  (not first_name) or (not last_name) or (not mobile) or (not address_line_1) or (not city ) or (not state) or (not pincode ):
+            error_msg='* Should Not Be Empty '
+            return render(request,'order_address.html',{'error_msg':error_msg,'value':userValues})
+        
+
+        return redirect('thank_you')  # Redirect to a success page
+    else:
+        return render(request, 'order_address.html')
+
+
+def thank_you(request):
+    return render(request, 'thank_you.html')

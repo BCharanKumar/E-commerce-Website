@@ -1,0 +1,73 @@
+{% extends 'Theme.html' %}
+{% block title %}
+<title>Order Address </title>
+{% endblock %}
+
+{% block main %}
+<style>
+    label
+    {
+        float: left;
+    }
+</style>
+<center>
+    
+<form class="mt-3" method="post" style="width: 30%;">
+    <h3>Enter Your Address Details...</h3>
+    {% if error_msg %}
+           
+            <div class="alert alert-danger alert-dismissible fade show m-2" role="alert" >
+                <strong>{{error_msg}}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+
+            {% endif %}
+    
+    <hr>    
+{% csrf_token %}
+<div class="form-group" >
+<label for="first_name" class="form-label" >First Name*</label>
+<input type="text" name="first_name" id="first_name" class="form-control" value="{{value.first_name}}" placeholder="Enter Your First Name">
+</div>
+<div class="form-group">
+<label for="last_name" class="form-label">Last Name*</label>
+<input type="text" name="last_name" id="last_name" class="form-control" value="{{value.last_name}}" placeholder="Enter Your Last Name">
+</div>
+<div class="form-group">
+<label for="mobile" class="form-label">Mobile Number*{10-digit}</label>
+<input type="number" name="mobile" id="mobile" class="form-control" value="{{value.mobile}}" placeholder="Enter Your Mobile Number">
+</div>
+<div class="form-group">
+    <label for="email" class="form-label">Email*</label>
+    <input type="email" name="email" id="email" class="form-control" placeholder="Enter Your Email">
+</div>
+
+<div class="form-group">
+<label for="address_line_1" class="form-label">Address Line1*</label>
+<textarea name="address_line_1" id="address_line_1" class="form-control"  value="{{value.address_line_1}}" placeholder="Enter Your Address"></textarea>
+</div>
+<div class="form-group">
+<label for="address_line_2" class="form-label">Address Line2(optional)</label>
+<textarea name="address_line_2" id="address_line_2" class="form-control" value="{{value.address_line_2}}" placeholder="Enter Your Address"></textarea>
+</div>
+<div class="form-group">
+<label for="city" class="form-label">City*</label>
+<input type="text" name="city" id="city" class="form-control" value="{{value.city}}" placeholder="Enter Your City">
+</div>
+<div class="form-group">
+<label for="state" class="form-label">State*</label>
+<input type="text" name="state" id="state" class="form-control" value="{{value.state}}" placeholder="Enter Your State">
+</div>
+<div class="form-group">
+<label for="pincode" class="form-label">Pincode*</label>
+<input type="number" name="pincode" id="pincode" class="form-control" value="{{value.pincode}}" placeholder="Enter Your Pincode">
+</div>
+<br>
+<div class="form-group">
+<button type="submit" class="btn btn-primary">Place Order</button>
+</div>
+</form>
+</center>
+{% endblock %}
+
+

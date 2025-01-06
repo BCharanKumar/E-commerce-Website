@@ -2,7 +2,7 @@
 {% extends 'Theme.html' %}
 
 {% block main %}
-
+    
 
     <div class="row ">
         <!--Category list columns-->
@@ -65,9 +65,9 @@
                             <div class="button-container">
                                 <button type="button" class="btn btn-danger" style="float: left;">
                                     {% if i.id %}
-                                      <a href="{% url 'add_to_cart' i.id %}"  style="float: left;">Add to card</a>
+                                      <a href="{% url 'add_to_cart' i.id %}"  style="float: left;">Add to cart</a>
                                     {% else %}
-                                      <a href="#">Add to card</a>
+                                      <a href="#">Add to cart</a>
                                     {% endif %}
                                   </button>
                                   
