@@ -1,89 +1,218 @@
-
 {% extends 'Theme.html' %}
 
 {% block main %}
-    
+<style>
+    /* Product Card Styles */
+    .card {
+        transition: all 0.3s ease-in-out;
+        border-radius: 15px; /* Slightly rounded corners for a softer look */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); /* Soft shadow for elegance */
+        background-color: #ffffff;
+        overflow: hidden;
+        border: 1px solid #ddd; /* Lighter border for subtle contrast */
+    }
 
-    <div class="row ">
-        <!--Category list columns-->
-        <div class="col-3 ">
-            <div class="card mt-4" style="position: sticky; top: 100px; z-index: 1000;">
-                <div class="card-body">
-        <div class="list-group  shadow m-4" style="width: 70%;">
-            <a href="{% url 'home' %}" >
-                <button  class="list-group-item list-group-item-action list-group-item-danger mb-2 shadow" style="border-radius: 10px;">All Products</button>
-            </a>
-            {% for i in category %}
-            <a href="{% url 'home' %}?category={{i.id}}" >
-                <button type="button" class="list-group-item list-group-item-action list-group-item-danger mb-2 shadow" style="border-radius: 10px;">
-                {{i.product_category}}
-            </button>
-            </a>
-            {% endfor %}
-        </div>
-        </div>
-        </div>
-    </div>
-    
-    <!--Products list columns-->
-    <div class="col-9">
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-body h3 {
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #2c3e50; /* Darker, sophisticated text */
+    }
+
+    .card-body h4 {
+        color: #e74c3c; /* Bright accent for product name */
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .card-footer {
+        background-color: #ecf0f1; /* Light footer background */
+        padding: 15px;
+        border-top: 2px solid #bdc3c7;
+        border-radius: 0 0 15px 15px;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+        padding: 10px 20px;
+        font-size: 15px;
+        border-radius: 5px;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-danger:hover {
+        background-color: #c0392b;
+        border-color: #c0392b;
+        transform: scale(1.05);
+    }
+
+    .btn-info {
+        background-color: #27ae60;
+        border-color: #27ae60;
+        padding: 10px 20px;
+        font-size: 15px;
+        border-radius: 5px;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-info:hover {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+        transform: scale(1.05);
+    }
+
+    /* Category List Styles */
+    .list-group-item {
+        transition: all 0.3s ease-in-out;
+        border-radius: 10px;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        background-color: #ffffff;
+        font-weight: 500;
+    }
+
+    .list-group-item:hover {
+        background-color: #f2f2f2; /* Subtle hover effect for better contrast */
+        transform: scale(1.02);
+    }
+
+    .list-group-item-danger {
+        background-color: #e63946;
+        border-color: #e63946;
+        color: #ffffff;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    */
+
+    h1, h2, h3, h4 {
+        font-family: 'Montserrat', sans-serif;
+        color: #34495e; /* Softer dark color for headers */
+    }
+
+    /* Improved spacing between sections */
+    .container {
+        margin-top: 30px;
+    }
+
+    /* Add to Cart Button */
+    .btn-add-to-cart {
+        background: linear-gradient(45deg, #3498db, #2980b9); /* Gradient blue */
+        border-color: #3498db;
+        padding: 14px 30px;
+        font-size: 16px;
+        border-radius: 12px;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); /* Subtle shadow for depth */
+        transition: all 0.3s ease-in-out;
+        display: inline-block;
+        letter-spacing: 1px;
+    }
+
+    .btn-add-to-cart:hover {
+        background: linear-gradient(45deg, #2980b9, #3498db); /* Reversed gradient */
+        box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        transform: scale(1.05);
+    }
+
+    .btn-add-to-cart:active {
+        background: linear-gradient(45deg, #1f6393, #2980b9); /* Darker gradient on click */
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.5);
+    }
+
+    body {
+            background-image: url('https://wallpaperaccess.com/full/1808558.jpg'); /* Replace with the image URL */
+            background-size:cover; /* Make the image cover the entire page */
+            position: relative;
+           backdrop-filter: blur(10px);
+        
+        }
+        /*
+        .body::before {
+  content: '';
+  
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;
+  background-size: inherit;
+  backdrop-filter: blur(50px);
+}
+*/
+
+   
+</style>
+
+
+
+    <!-- Products list columns -->
+    <div class="col-md-12">
         <div class="row">
-            {% for i in products %} 
-                <div class="col-md-4 mt-4">
-                     <div class="card mb-5 shadow hover-effect"  style="height: 400px; width: 100%; text-align: center;">
-        
-                        <div class="card-header mt-3">
-        
-                            <img src="{{i.image.url}}" alt="" class="img-thumbnail" width="130px" height="190px">
-        
-                        </div>
-        
-                        <div class="card-body">
-                            <!--
-                            <p>
-                                <span style="color: red; font-weight: bold;">-83% Off</span>
-                                <span style="font-size: 24px; font-weight: bold;">₹1,499</span>
-                                
-                                
-                                M.R.P.: <span style="text-decoration: line-through;">₹8,999.00</span>
-                                </p>
-                            
-                            -->
-                                <h3 style="text-align: center;color: red; font-weight: bold;">Price:{{i.price}}</h3>
-                                <h3 style="text-align: center;color: blue; font-weight: bold;">{{i.name}}</h3>
-<h4>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star checked"></span>
-                                <span class="fa fa-star "></span>
-                                
-                            </h4>
-                        </div>
-        
-                        <div class="card-footer">
-                            <div class="button-container">
-                                <button type="button" class="btn btn-danger" style="float: left;">
-                                    {% if i.id %}
-                                      <a href="{% url 'add_to_cart' i.id %}"  style="float: left;">Add to cart</a>
-                                    {% else %}
-                                      <a href="#">Add to cart</a>
-                                    {% endif %}
-                                  </button>
-                                  
-                                  
-                                  <a href="{% url 'buy_now' i.id %}" style="float: right;">
-                            <button style="float: right;" type="button" class="btn btn-info" >Buy Now</button></a>
+            {% for i in products %}
+            <div class="col-md-3 mt-4">
+                <div class="card mb-5 shadow hover-effect" style="height: 400px; width: 100%; text-align: center;">
+                    <div class="card-header mt-3">
+                       <a href="{% url 'about_product' i.id %}"> <img src="{{i.image.url}}" alt="" class="img-thumbnail" width="130px" height="190px"></a>
+                    </div>
+
+                    <div class="card-body">
+                        <h3 style="color: red; font-weight: bold;">Price: {{i.price}}</h3>
+                        <h3 style="color: blue; font-weight: bold;">{{i.name}}</h3>
+                        <h4>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                        </h4>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="button-container">
+                            <button type="button" class="btn btn-danger" style="float: left;border-radius: 10px;">
+                                {% if i.id %}
+                                    <a href="{% url 'add_to_cart' i.id %}"  ">Add to cart</a>
+                                {% else %}
+                                    <a href="#">Add to cart</a>
+                                {% endif %}
+                            </button>
+                            <a href="{% url 'buy_now' i.id %}" style="float: right;">
+                                <button type="button" class="btn btn-info" style="border-radius: 10px;">Buy Now</button>
+                            </a>
                         </div>
                     </div>
-        
-                 </div>
-                    
-             </div>
-             {% endfor %} 
-         </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
-    
 
 {% endblock %}

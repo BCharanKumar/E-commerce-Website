@@ -1,0 +1,122 @@
+
+{% extends 'Theme.html' %}
+{% block title %}
+    <title>About Product</title>
+    {% endblock %}
+
+{% block main %}
+<style>
+  body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+  }
+
+  center {
+      padding: 20px;
+      margin: 0 auto;
+  }
+
+  img {
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+  }
+
+  img:hover {
+      transform: scale(1.05);
+  }
+
+  h1 {
+      font-size: 2.5rem;
+      color: #007bff;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  p {
+    font-size: 1.2rem; /* Larger and more readable font size */
+    color: #555; /* Subtle text color for readability */
+    line-height: 1.8; /* Better spacing between lines */
+    text-align: center; /* Center align the text */
+    margin: 10px auto; /* Add spacing around the paragraphs */
+    max-width: 600px; /* Restrict paragraph width for better readability */
+    background: #f8f9fa; /* Light background for contrast */
+    padding: 10px; /* Add padding around text for space */
+    border-radius: 8px; /* Rounded corners for a smooth design */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-shadow: 1px 1px 2px #ccc; /* Soft text shadow for an elegant look */
+}
+
+
+  .btn {
+      font-size: 1.1rem;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+  }
+
+  .btn-danger {
+      background-color: #dc3545;
+      border: none;
+      color: white;
+      transition: background-color 0.3s ease;
+  }
+
+  .btn-danger:hover {
+      background-color: #c82333;
+  }
+
+  .btn-primary {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      transition: background-color 0.3s ease;
+  }
+
+  .btn-primary:hover {
+      background-color: #0056b3;
+  }
+
+  a {
+      color: white;
+      text-decoration: none;
+  }
+
+  a:hover {
+      text-decoration: underline;
+  }
+
+  form {
+      margin-top: 20px;
+      display: inline-block;
+  }
+</style>
+<center>
+  <img src="{{ product.image.url }}" alt="{{ product.name }}" width="250" height="250" class="mt-3">
+  <h1>Buy Now: {{ product.name }}</h1>
+      
+      <p>Price: {{ product.price }}</p>
+      <p>Description -: {{product.desc}}</p>
+
+     
+        
+      <button type="button" class="btn btn-danger" style="float: left;">
+        {% if product.id %}
+           
+        <a href="{% url 'add_to_cart' product.id %}"  style="display:inline;">Add to cart</a>
+        {% else %}
+            <a href="#">Add to cart</a>
+        {% endif %}
+    </button>
+
+      <form action="{% url 'buy_now' product.id %}" method="post" style="float: right;padding: 50px;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Buy Now</button>
+    
+      </form>
+    </center>
+    {% endblock %}
+    
+    
+    

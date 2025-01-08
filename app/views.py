@@ -7,6 +7,11 @@ from django.contrib.auth import logout
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from app.forms import *
+from django.shortcuts import render, redirect
+from twilio.rest import Client
+from django.contrib import messages
+
+
 
 # Create your views here.
 
@@ -92,7 +97,7 @@ def otp_gen():
     get_otp=random.randint(100000,999999)
     return get_otp
 
-#The view is Responsible for Verifying the generated otp
+# #The view is Responsible for Verifying the generated otp
 def verify_otp(request):
     error_msg=None
     if request.method=='POST':
@@ -108,6 +113,7 @@ def verify_otp(request):
         else:
             error_msg='Invalid Otp'
     return render(request,'verify_otp.html',{'error_msg':error_msg})
+
 
 
 
@@ -147,7 +153,7 @@ def login_user(request):
                           [email],
                           fail_silently=False)
                 
-                return redirect('verify_otp')
+                #return redirect('verify_otp')
                 return redirect('home')
             else:
                 error_msg='Invalid Password'
@@ -158,6 +164,31 @@ def login_user(request):
             d={'error':error_msg}
             return render(request,'login.html',d)
 
+def change_password(request):
+    if request.method == 'POST':
+        pwd = request.POST['pwd']
+        rpwd = request.POST['rpwd']
+        email = request.session.get('email')
+        if email:
+            try:
+                User = Customer.objects.get(email=email)
+            except Customer.DoesNotExist:
+                messages.error(request, 'Invalid Email')
+                return render(request, 'change_password.html')
+            if pwd == rpwd:
+                User.password = pwd
+                User.save()
+                messages.success(request, 'Password changed successfully!')
+                return redirect('home')
+            else:
+                messages.error(request, 'New password and confirm password do not match!')
+                return render(request, 'change_password.html')
+        else:
+            messages.error(request, 'You must be logged in to change your password!')
+            return redirect('login_user')
+    return render(request, 'change_password.html')
+
+
 
 def logout_user(request):
     if 'email' in request.session:
@@ -165,7 +196,9 @@ def logout_user(request):
     
     return redirect('login_user')
 
-  
+
+
+
  
 def add_to_cart(request, id):
     email = request.session.get('email')
@@ -280,6 +313,24 @@ def view_cart(request):
 #     return render(request, 'cart.html', {'items': items, 'total_price': total_price})
 
 
+def about_product(request,product_id):
+    products=Product.objects.all()
+    if request.method == 'POST':
+        product = Product.objects.get(id=product_id)
+        email = request.session.get('email')
+        if email:
+            customer = Customer.getemail(email)
+            order, created = Order.objects.get_or_create(customer=customer, complete=False)
+            order_item, created = OrderItem.objects.get_or_create(order=order, product=product)
+            order_item.quantity += 1
+            order_item.save()
+            return redirect('order_address')
+        else:
+            return redirect('login_user')
+    else:
+        product = Product.objects.get(id=product_id)
+        return render(request, 'About_product.html', {'product': product})
+    #return render(request,'About_product.html')
 
 
 def buy_now(request, product_id):
@@ -301,11 +352,12 @@ def buy_now(request, product_id):
 
 
 def search_products(request):
+    quanity=1
     if request.method == 'GET':
         query = request.GET.get('query')
         if query:
             products = Product.objects.filter(name__icontains=query)
-            return render(request, 'search_results.html', {'products': products})
+            return render(request, 'search_results.html', {'products': products,'quanity':quanity})
         else:
             return render(request, 'search_results.html')
     return render(request, 'search_results.html')
@@ -367,6 +419,11 @@ def checkout(request):
 #     return render(request, 'create_order.html', {'form': form})
 
 def order_address(request):
+    userValues = {}
+    error_msg = None
+    otp = None
+
+
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -391,10 +448,22 @@ def order_address(request):
         
          # Send email to customer
         subject = 'Order Successful'
-        message = f'Dear {first_name} {last_name},\n\nYour order has been successfully placed. We will deliver your order to the following address:\n\n{address_line_1}, {address_line_2}\n{city}, {state} - {pincode}\n\nThank you for shopping with us!'
+        message = f'Dear {first_name} {last_name},\n\nYour order has been successfully placed. We will deliver your order to the following address:\n\n{address_line_1},\n{city}, {state} - {pincode}\n\nThank you for shopping with us!'
         from_email = settings.EMAIL_HOST_USER
         to_email = [request.POST['email']]  # Assuming email is also a field in the form
         send_mail(subject, message, from_email, to_email, fail_silently=False)
+        
+#         account_sid = "AC3220f2e3e5a3e7203a03976d9190019f"
+#         auth_token  = "a89a9d17a06b67028e4f45c7934a065f"
+#         client = Client(account_sid, auth_token)
+
+#         message = client.messages.create(
+#     to="+91 9346096771",
+#     from_="+15705399880",
+#     body=f"Dear {first_name} {last_name},\n\nYour order has been successfully placed. We will deliver your order to the following address:\n\n{address_line_1},\n{city}, {state} - {pincode}\n\nThank you for shopping with us!",
+# )
+
+
  
         userValues={
             'first_name':first_name,
@@ -406,17 +475,27 @@ def order_address(request):
             'state':state,
             'pincode':pincode
         }
-
-        error_msg=None
+        otp=otp_gen()
+       
         if  (not first_name) or (not last_name) or (not mobile) or (not address_line_1) or (not city ) or (not state) or (not pincode ):
             error_msg='* Should Not Be Empty '
-            return render(request,'order_address.html',{'error_msg':error_msg,'value':userValues})
+            return render(request,'order_address.html',{'error':error_msg,'value':userValues})
         
 
-        return redirect('thank_you')  # Redirect to a success page
+        #return redirect('thank_you')  # Redirect to a success page
+        return render(request,'order_successful.html',{'value':userValues,'otp':otp})
     else:
-        return render(request, 'order_address.html')
+        return render(request, 'order_address.html',{'value':userValues})
+
+        
 
 
 def thank_you(request):
-    return render(request, 'thank_you.html')
+    return render(request, 'order_successful.html')
+
+
+
+def contact(request):
+    return render(request,'contact.html')
+
+

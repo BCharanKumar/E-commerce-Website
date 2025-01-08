@@ -1,8 +1,22 @@
 
 {% extends 'Theme.html' %}
-
+{% block title %}
+    <title>Buy Now</title>
+    {% endblock %}
 
 {% block main %}
+<style>
+  p {
+  text-shadow: 2px 2px 5px #ccc;
+  letter-spacing: 1.3px;
+  hyphens: auto;
+  line-height-step: 1.5;
+
+
+}
+
+
+</style>
 <center>
 <img src="{{ product.image.url }}" alt="{{ i.product.name }}" width="250" height="250" class="mt-3">
   <h1>Buy Now: {{ product.name }}</h1>

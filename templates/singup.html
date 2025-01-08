@@ -1,13 +1,41 @@
 {% extends 'Theme.html' %}
 
 {% block main %}
+<style>
+.gradient-custom {
+/* fallback for old browsers */
+background: #f093fb;
 
-<div class="container">
-    <div class="row m-5">
-        <div class="col-6 mx-auto">
-            <div class="border shadow p-5">
-            <h1 class="m-2">Create an account</h1>
-            <hr>
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1))
+}
+body
+{
+  /* fallback for old browsers */
+  background: #f093fb;
+  
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgb(159, 121, 167))
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+.card-registration .select-arrow {
+top: 13px;
+}
+</style>
+            
             {% if error %}
            
             <div class="alert alert-danger alert-dismissible fade show m-2" role="alert">
@@ -19,41 +47,61 @@
                 <strong>{{success}}</strong> 
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
-
-        
           {% endif %}
-            <form class="m-5" method="POST" >
 
+<section class="vh-100 gradient-custom">
+  
+    <div class="row justify-content-center align-items-center h-100">
+    
+        <center>
+        <div class="card " style="border-radius: 15px;width: 600px;">
+          <div class="card-body  p-md-5" style="padding-left: 50px;">
+            <h3 class=" pb-md-0 md-5">Registration Form</h3>
+          <hr>
+            <form method="POST" >
+              <div class="row">
+                <div class="col-md-12 ">
                 {% csrf_token %}
-
-                <div class="form-gorup">
-                    <label for="fn" class="form-label">First Name*</label>
-                    <input type="text" name="fn" id="fn" class="form-control" value="{{value.fn}}" placeholder="Enter Your First Name">
-                </div>
-                <div class="form-gorup">
-                    <label for="ln" class="form-label">Last Name*</label>
-                    <input type="text" name="ln" id="ln" class="form-control" value="{{value.ln}}" placeholder="Enter Your Last Name">
-                </div>
-                <div class="form-gorup">
-                    <label for="email" class="form-label">Email* </label>
-                    <input type="email" name="email" id="email" class="form-control" value="{{value.email}}" placeholder="Enter Your Email ">
-                </div>
-                <div class="form-gorup">
-                    <label for="mobile" class="form-label">Mobile Number*{10-digit}</label>
-                    <input type="number" name="mobile" id="mobile" class="form-control" value="{{value.mobile}}" placeholder="Enter Your Mobile Number">
-                </div>
-                <div class="form-gorup">
-                    <label for="password" class="form-label">Password*</label>
-                    <input type="password" name="password" id="password" class="form-control"  placeholder="Enter Your Password">
-                </div>
-                <div class="form-gorup only-button  " >
+                <div data-mdb-input-init class="form-outline">
+                    <input type="text" id="fn" name="fn" class="form-control " />
+                    <label class="form-label" for="fn">First Name*</label>
+                  </div>
+                
+                  <div data-mdb-input-init class="form-outline">
+                    <input type="text" id="ln" name="ln" class="form-control " />
+                    <label class="form-label" for="ln">Last Name*</label>
+                  </div>
+  
+                  <div data-mdb-input-init class="form-outline">
+                    <input type="email" id="email" name="email" class="form-control" />
+                    <label class="form-label" for="email">Your Email*</label>
+                  </div>
+  
+                  <div data-mdb-input-init class="form-outline">
+                    <input type="number" id="mobile" name="mobile" class="form-control " />
+                    <label class="form-label" for="mobile">Mobile Number*{10 Digits}</label>
+                  </div>
+  
+                  <div data-mdb-input-init class="form-outline ">
+                    <input type="password" id="password" name="password" class="form-control " />
+                    <label class="form-label" for="password">Password</label>
+                  </div>
+                  </div>
+                <div class="form-gorup only-button  " style="padding-left: 25px;">
                     
-                    <input type="submit" value="singup" class="btn btn-outline-success mt-3" >
+                    <input type="submit" value="singup" class="btn btn-primary" style="width: 40%;">
                 </div>
-                <p style="text-align: center;">Already Created Account..?<a href="{% url 'login_user' %}" style="text-align: center; text-decoration: underline;color: blue;">sing in</a></p>
-            </form>
-        </div>
+                  </form>
+                  <p class="text-center text-muted ">Have already an account? 
+                    <a href="{% url 'login_user' %}" style="color: blue;">
+                  
+                     Login here</a></p>
         </div>
     </div>
+  </div>
 </div>
+</center>
+</div>
+</div>
+</section>
  {% endblock %}

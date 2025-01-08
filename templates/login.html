@@ -1,47 +1,86 @@
 {% extends 'Theme.html' %}
 
+{% block title %}
+<title>Login</title>
+{% endblock %}
 {% block main %}
-<div class="container">
-    <div class="row m-5">
-        <div class="col-5 mx-auto">
-            <div class="border shadow p-5">
+{% load static %}
+<style>
+  body
+  {
+    background: #6a11cb;
 
-    <h1>  Login Page <hr> </h1>
-    {% if error %}
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgb(20, 95, 223));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+  }
+   .gradient-custom {
+/* fallback for old browsers */
+background: #6a11cb;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgb(20, 95, 223));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+}
+
+</style>
+
+<hr>
+<section class=" gradient-custom">
+          <div class="row  d-flex justify-content-center align-items-center " >
+        <div class="col-lg-6 " style="width: 600px;">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;width: 500px;height: 600px;">
+            <div class="card-body p-4 text-center">
+              {% if error %}
            
-            <div class="alert alert-danger alert-dismissible fade show m-2" role="alert">
-                <strong>{{error}}</strong> 
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-
-    {% endif %}
-
-
-    <form method="POST" class="border shadow">
-        {% csrf_token %}
-        
-  <div class="form-gorup m-2">
-  <div class=" p-4">
-    
-    <label for="email" >Email address</label>
-    <input type="email" class="form-control"  name="email"  id="email" placeholder="Enter Your Email/Username">
-    
-  <div class="m-2">
-    <label for="password" >Password</label>
-    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Your Password">
-  </div>
-
-  <div class="form-gorup ">
+              <div class="alert alert-danger alert-dismissible fade show m-2" role="alert">
+                  <strong>{{error}}</strong> 
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% elif success %}
+              <div class="alert alert-success alert-dismissible fade show m-2" role="alert">
+                  <strong>{{success}}</strong> 
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endif %}
+                <div class=" pb-2">
+                <form method="POST" class="border shadow">
+                    {% csrf_token %}
                     
-    <input type="submit"  class="btn btn-outline-success mt-3 " >
-  </div>
-  <p style='text-align:center;'>New User..?<a href="{% url 'singup' %}" style="text-align: center; text-decoration: underline;color: blue;">Singup</a></p>
-</div>
 
-</form>
-</div>
-</div>
-</div>
-</div>
+<img src="{% static 'images/user.png' %}" alt="" style=" width: 100px;object-fit: cover;border-radius:50%;">
+                       
+                        <h2 class="fw-bold mb-2 text-titlecase">User Login</h2>
+                        <p class="text-white-50 ">Please enter your email and password!</p>
+                        <div data-mdb-input-init class="form-outline " style="padding:20px;">
+                            <input type="email" id="email" name="email" class="form-control form-control-lg" />
+                            <label class="form-label" for="email" style="color: gray;">Email</label>
+                          </div>
+
+                           <div data-mdb-input-init class="form-outline" style="padding:20px;">
+                <input type="password" id="password" name="password" class="form-control form-control-lg" />
+                <label class="form-label" for="password" style="color: gray;">Password</label>
+              </div>
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+
+                      
+                    </div>
+                    <div>
+                        <p class="mb-0">Don't have an account? <a href="{% url 'singup' %}" class="text-white-50 fw-bold">Sign Up</a>
+                        </p>
+                      </div>
+                    </form>
+                       
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

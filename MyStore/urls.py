@@ -30,7 +30,9 @@ urlpatterns = [
     path('otp_gen/',otp_gen,name='otp_gen'),
     path('verify_otp/',verify_otp,name='verify_otp'),
     path('',login_user,name='login_user'),
+    path('change_password/',change_password,name='change_password'),
     path('logout_user/',logout_user,name='logout_user'),   
+    path('verify-otp/',verify_otp, name='verify_otp'),
 
     path('add_to_cart/<int:id>/', add_to_cart, name='add_to_cart'),
     path('remove_from_cart/<int:id>/',remove_from_cart, name='remove_from_cart'),
@@ -38,12 +40,14 @@ urlpatterns = [
     path('increase_cart_quantity/',increase_cart_quantity, name='increase_cart_quantity'),
     path('decrease_cart_quantity/',decrease_cart_quantity, name='decrease_cart_quantity'),
     path('cart/',view_cart, name='view_cart'),
+    path('about_product/<int:product_id>',about_product,name='about_product'),
     path('buy-now/<int:product_id>/',buy_now, name='buy_now'),
     path('search/',search_products, name='search_products'),
     path('checkout/',checkout, name='checkout'),
     path('order_address/',order_address, name='order_address'),
-
+    
     path('thank_you/',thank_you, name='thank_you'),
+    path('contact/',contact,name='contact'),
 
 
 

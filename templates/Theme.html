@@ -4,174 +4,219 @@
 <head>
    
     {% block title %}
-    <title>Document</title>
+    <title>My Store</title>
     {% endblock %}
     <!--css file vs bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-       .form-label {
-            font-weight: bold;
-            color:black;
-        }
-       .form-control, .form-select {
-            border-color: #6f68ae; 
-            border-radius: 50px;
-            background-color:#dbd9e8;
-        }
-        .form-control:focus, .form-select:focus {
-            border-color: fuchsia;
-            box-shadow: 0 0 10px rgba(56, 142, 60, 0.5);
-        }
-       body {
-                /* background-color: #e8f5e9;  */
-                font-family: Arial, sans-serif;
-                
+   
+     <style>
+      /* Global Styles */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
 
-            }
-            h1 {
-                color: #388e3c; 
-                text-align: center;
-                margin-block-end: 20px;
-                font-size: 2rem;
-            }
-            hr {
-            border: 0;
-            block-size: 2px;
-            background: linear-gradient(to right, #388e3c, #81c784); /* Green gradient for the hr */
-            margin-block-end: 30px;
-        }
-
-       .container {
-                max-inline-size: 2000px;
-                background-color: #ffffff; /* White background for the container */
-                padding: 30px;
-                margin-block-start: 50px;
-                border-radius: 10px;
-                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-              
-            }
-  .hover-effect {
-    transition: all 0.5s ease;
-  }
-  
-  .hover-effect:hover {
-    background-color: #f2f2f2; /* change background color */
-    color: #333; /* change text color */
-    transform: scale(1.1); /* add scale effect */
-    box-shadow: 50cm;
-  }
-  nav
-  {
-    background-color: aqua;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 0px;
-    align-items: center;
-    position: sticky;
-    inset-block-start: 0px;
-    flex-direction: row;
-  }
-  button{
-          padding:10px 30px;
-          font-size: 15px;
-          border-radius: 7px;
-          border: none;
-          color: skyblue;
-          
-
-
-      }
-      a{
-          text-decoration: none;
-          color:white;
-          font-size: 15px;
-        
-       
-        
-      }
-
-      input{
-
-          block-size: 40px;
-          inline-size:350px;
-          border: none;
-          border-radius: 5px;
-    
-      }
-      .checked {
-  color: green;
-  }
-      i
-      {
-        color:white;
       
       }
-      .only-button
-      {
-        display: grid;
-  place-items: center;
-  height: 10vh;
-
+    
+      /* Form Styles */
+      .form-label {
+        font-weight: bold;
+        color: #333;
+        margin-block-end: 10px;
       }
-</style>
+    
+      .form-control, .form-select {
+        border-color: #6f68ae;
+        border-radius: 10px;
+        background-color: #dbd9e8;
+        padding: 15px;
+        font-size: 16px;
+        border-width: 2px;
+      }
+    
+      .form-control:focus, .form-select:focus {
+        border-color: #388e3c;
+        box-shadow: 0 0 10px rgba(56, 142, 60, 0.5);
+      }
+    
+      /* Container Styles */
+      .container {
+        max-inline-size: 1400px;
+        background-color: #ffffff;
+        padding: 30px;
+        margin-block-start: 50px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        
+      }
+    
+     
+      /* Navigation Styles */
+      /* Navbar Styles */
+.navbar {
+  background: linear-gradient(135deg, rgba(0, 123, 255, 0.7), rgba(255, 0, 123, 0.7));
+  /* Light blue to pink gradient with transparency */
+  color: white; /* Text color */
+  padding: 15px 20px; /* Spacing inside navbar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border: none;
+}
+
+.navbar a {
+  color: white; /* Link text color */
+  text-decoration: none; /* No underlines */
+  margin: 0 15px; /* Spacing between links */
+  font-size: 18px; /* Font size for links */
+}
+
+.navbar a:hover {
+  color: #ffbb33; /* Color when hovering over links */
+}
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+    
+      a {
+        text-decoration: none;
+        color: #ffffffe9;
+        font-size: 16px;
+        margin-inline-end: 20px;
+        background-color: none;
+      }
+    
+      a:hover {
+        color: #988de0;
+      }
+    
+      i {
+        color: black;
+      }
+    
+      .checked {
+        color: green;
+      }
+    
+      .hover-effect {
+        transition: all 0.5s ease;
+      }
+    
+      .hover-effect:hover {
+        background-color: #f2f2f2;
+        border-radius: 75px;
+        color: #333;
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    
+      .only-button {
+        display: grid;
+        place-items: center;
+        height: 10vh;
+      }
+    
+      input {
+        block-size: 40px;
+        inline-size: 350px;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+      }
+    
+      h1 {
+        color: #388e3c;
+        text-align: center;
+        margin-block-end: 20px;
+        font-size: 2rem;
+      }
+    
+      hr {
+        border: 0;
+        block-size: 2px;
+        background: linear-gradient(to right, #388e3c, #81c784);
+        margin-block-end: 30px;
+      }
+   </style>
+    
   </head>
 <body >
   <!--menu starts here-->
    
-  <nav class="nav">
-    <h3>My Store 
- 
-        <br><span style="font-size: 15px;">welcome to Store</span><br>
-    </h3> 
-    <a href="{% url 'home' %}">
-      <button type="submit" >Home</button>
-    </a>
+  <nav class="nav " style=" border-radius: 30px; display: flex; justify-content: space-between; align-items: center; padding: 10px 30px;">
+    <div style=" align-items: left;padding-right: 30px;">
+            <img src="{% static 'images/download.png' %}" style="width: 120px;object-fit: cover;border-radius: 50%;" alt="" >
+    </div>
 
-    <div class="icofont-search-1">
+   <div style="display: flex; align-items: center;">
+      <button class="button hover-effect" style="border:none; ;padding-left: 20px; border-radius: 75px;color:black;background-color: red;text-align: center;"><a href="{% url 'home' %}" style="color:black;">Home</a></button>
+      </div>
+    <!-- Search Form -->
+    <form method="get" action="{% url 'search_products' %}" style="flex-grow: 1; display: flex; justify-content: center; margin-right: 20px;">
+        <input type="search" name="query" placeholder="Search for Products, Brands and more" style="padding: 10px; width: 350px; border-radius: 20px; border: 1px solid #ddd;">
+    </form>
+
+
     
-
-
-    <form method="get" action="{% url 'search_products' %}">
+        {% if request.session.email %}
       
-      <input type="search" name="query" placeholder="Search for Products,Brands and more">
-      
-  </form>
+<!-- Dropdown Menu (Dropup version) -->
 
-  </div>
-    <a href="{% url 'admin:index' %}"></a>
-   
+    <button class=" dropdown-toggle " type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 30px;background-color: red;text-align: center;border: none;">
+        All Products
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="border-radius: 10px;">
+        <li><a class="dropdown-item" href="{% url 'home' %}">All Products</a></li>
+        {% for i in category %}
+            <li><a class="dropdown-item" href="{% url 'home' %}?category={{i.id}}">{{i.product_category}}</a></li>
+        {% endfor %}
+    </ul>
 
+     
            
    
-
-  {% if request.session.email  %}
+<div style="position: relative; display: inline-block; padding-right: 10px;padding-left: 25px;"> 
+  <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 30px;background-color: red;border: none;text-align: center;">
+    more
+  </button>
+  <!-- Dropdown Menu -->
   
-  
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="border-radius: 10px;text-align: center;">
+      <li ><a href="{% url 'logout_user' %}" style="border:none;text-decoration: none; color: #333; display: block;  border-radius: 5px;">Logout</a></li>
+      <li><a href="{% url 'contact' %}" style="border:none;text-decoration: none; color: #333; display: block; padding: 8px; border-radius: 5px;">Contact</a></li>
+      <li><a href="{% url 'change_password' %}" style=" border:none;text-decoration: none; color: #333; display: block; padding: 8px; border-radius: 5px;">Change pword</a></li>
+    </ul>
+
+</div>
 
 
-  <a href="{% url 'logout_user' %}"><button type="submit">Logout</button></a>  
-  <a href="{% url 'view_cart' %}" style="font-size: 30px;">
-    <i class="fa fa-shopping-cart" style="font-size:25px"></i>Cart
-    <span id="cart-count" class="badge badge-pill badge-danger">{{ cart_count }}</span>
-    </a>
-  
 
- 
-  {% else %}
- 
 
-  <a class="hover-effect" href="{% url 'login_user' %}"><button type="submit">Login</button></a>
-  <a href="{% url 'singup' %}"><button type="submit">Singup</button></a>
-{% endif %}
-  </nav>
+     <a href="{% url 'view_cart' %}" style="border-radius: 75px; font-size: 18px; margin-left: 20px; color:black;background-color: red;padding: 5px;">
+                <i class="fa fa-shopping-cart" style="font-size:18px;text-decoration: none;"></i>cart
+            </a>
+        {% else %}
+            <a class="hover-effect" href="{% url 'login_user' %}" style="margin-left: 20px;">
+                <button type="submit" style="width: 70px;height: 30px; border:none;padding: 3px;color:black; border-radius: 20px;background-color: red;text-align: center;">Login</button>
+            </a>
+            <a href="{% url 'singup' %}" style="margin-left: 20px;" class="hover-effect" >
+                <button type="submit" style="border:none;color: black;width: 70px;height: 30px; padding: 3px; border-radius: 20px;background-color: red;text-align: center;">Signup</button>
+            </a>
+        {% endif %}
+    </div>
+</nav>
 
             
 
   <!--menu end here-->
    
+
+  <script src="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 
 {% block main %}

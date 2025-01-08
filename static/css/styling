@@ -1,0 +1,108 @@
+body {
+    background-color: #e0e5ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 110vh;
+    margin: 0;
+    margin-top: 100px;
+}
+
+.newmargin{
+    margin-top: -300px;
+}
+.newmargin1{
+    margin-top: 100px;
+}
+
+.newmargin2{
+    margin-top: -200px;
+}
+
+.container-fluidnow{
+    padding-top: 80px;
+}
+.new{
+    margin-top: 50px;
+}
+.card {
+    background-color: #e0e5ec;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.2), -7px -7px 15px #ffffff;
+    width: 600px;
+    text-align: center;
+    margin:auto;
+    margin-top: 150px ;
+}
+    
+.h2 {
+    font-size: 1.5rem;
+    color: #1da1f2;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    background-color: #e0e5ec;
+    border: none;
+    border-radius: 50px;
+    padding: 0.75rem 1rem;
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1), inset -4px -4px 8px #ffffff;
+    margin-bottom: 1rem;
+    color: #333;
+}
+/* Button Styling */
+.button-color {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Glitter effect on hover */
+.button-color:hover {
+    background: linear-gradient(45deg, #6a11cb, #00c6ff);
+    box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #6a11cb, 0 0 40px #2575fc;
+}
+
+/* Butterfly effect on click */
+.button-color:active {
+    transform: scale(1.1) rotate(-5deg);
+    transition: 0.1s ease;
+    box-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff, 0 0 30px #ff7eb3, 0 0 40px #ff758c;
+}
+
+/* Cursor style and animations */
+.button-color:hover {
+    cursor: pointer;
+}
+
+.button-color::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 20%);
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.button-color:hover::before {
+    opacity: 1;
+    transform: translate(50%, 50%);
+}
+
+.credit {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #999;
+}

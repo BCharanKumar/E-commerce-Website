@@ -1,0 +1,112 @@
+
+{% extends 'Theme.html' %} 
+{% load static %} 
+{% block title %} 
+<title>Order Successful Cart</title> 
+{% endblock %} 
+{% block main %} 
+<style> 
+  body {
+            background-image: url('https://wallpaperaccess.com/full/1808558.jpg'); /* Replace with the image URL */
+            background-size:cover; /* Make the image cover the entire page */
+            position: relative;
+            backdrop-filter: blur(10px);
+        
+        }
+        /* .body::before {
+  content: '';
+  
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;
+  background-size: inherit;
+  backdrop-filter: blur(50px);
+} */
+
+.card{ 
+background-color: #fff; 
+width: 300px; 
+border: none; 
+border-radius: 21px; 
+box-shadow: #1f11ba; 
+width: 60%; 
+} 
+.info{ 
+line-height: 24px; 
+} 
+.name{ 
+color: #4c40e0; 
+font-size: 23px; 
+font-weight: 600; 
+} 
+.order{ 
+font-size: 19px; 
+font-weight: 400; 
+color:rgba(0, 0, 0, 0.658); 
+} 
+.detail{ 
+line-height:24px; 
+} 
+.summery{ 
+color: black; 
+font-weight: 400; 
+font-size: 18px; 
+} 
+.text{ 
+line-height:20px; 
+} 
+.new{ 
+color: #000; 
+font-size: 20px; 
+font-weight: 600; 
+} 
+.money{ 
+font-size: 19px; 
+font-weight:500; 
+} 
+.address{ 
+color: black; 
+font-weight:500; 
+font-size:19px; 
+} 
+.last{ 
+font-size: 35px; 
+font-weight: 500; 
+} 
+.address-line{ 
+color: #4C40E0; 
+font-size: 16px; 
+font-weight: 700; 
+} 
+</style> 
+<center>
+    
+<div class="card p-4 mt-3" style="width: 600px;"> 
+<div class="first d-flex justify-content-between align-items-center mb-3"> 
+<div class="info" > 
+<span class="d-block name">Thank you, {{value.first_name}}</span> 
+<span class="order">OrderID - {{otp}}</span> 
+</div> 
+<img src="https://i.imgur.com/NiAVkEw.png"  width="40"/> 
+</div> 
+<div class="summery">Your order has been dispatched. we are delivering you order.</div> 
+<hr> 
+<div class="text"> 
+<span class="d-block new mb-1" >Delivery Address -:</span> 
+<span class="d-block address mb-3">Home -:{{value.address_line_1}} <br> City -: {{value.city}} - {{value.pincode}}<br> State -:{{value.state}}</span> 
+</div> 
+<div class="money d-flex flex-row mt-2 align-items-center"> 
+<img src="https://i.imgur.com/ppwgjMU.png" width="20" /> 
+<span class="ml-2">Cash on Delivery</span> 
+</div> 
+<div class="last d-flex align-items-center mt-3"> 
+<a href="{% url 'order_address' %}"> 
+<span class="address-line">Change My Delivery Address</span> 
+</a> 
+</div> 
+</div> 
+</div>
+</center>
+{% endblock %}
