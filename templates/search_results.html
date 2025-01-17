@@ -7,13 +7,7 @@
 {% block main %}
 <style>
   
-  body {
-            background-image: url('https://wallpaperaccess.com/full/1808558.jpg'); /* Replace with the image URL */
-            background-size:cover; /* Make the image cover the entire page */
-            position: relative;
-            backdrop-filter: blur(10px);
-        
-        }
+
         /* .body::before {
   content: '';
   
@@ -109,9 +103,10 @@
 {% load my_tags %}
 <!-- <div class="container"> -->
     <div>
+        <br><br><br><br>
     {% if request.session.email %}
     <h3 class="d-flex justify-content-center ">Search Results</h3>
-    <table class="table" style="font-size: x-large;">
+    <table class="table" ">
         <thead>
             <tr>
                 <th>Image</th>

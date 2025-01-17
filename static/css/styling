@@ -5,14 +5,14 @@ body {
     justify-content: center;
     height: 110vh;
     margin: 0;
-    margin-top: 100px;
+    margin-top: 250px;
 }
 
 .newmargin{
     margin-top: -300px;
 }
 .newmargin1{
-    margin-top: 100px;
+    margin-top: 220px;
 }
 
 .newmargin2{

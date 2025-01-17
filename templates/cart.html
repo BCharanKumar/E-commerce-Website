@@ -5,12 +5,21 @@
 
 {% block main %}
 <style>
-     body {
-            background-image: url('https://wallpaperaccess.com/full/1808558.jpg'); /* Replace with the image URL */
-            background-size:cover; /* Make the image cover the entire page */
+     /* body {
+            background-image: url('https://wallpaperaccess.com/full/1808558.jpg'); 
+            background-size:cover; 
             position: relative;
             backdrop-filter: blur(10px);
+           
         
+        } 
+        */
+        
+        body
+        {
+             margin-top: 120px;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
         }
         /* .body::before {
   content: '';
@@ -34,7 +43,7 @@
     }
 
     .table {
-        width: 100%;
+        width: 80%;
         margin-top: 20px;
         border-collapse: collapse;
         background-color: #ffffff; /* White background for the table */
@@ -105,10 +114,10 @@
     {% if items %}
     
     <h3 class="d-flex justify-content-center mb-5 mt-2 text-dark">Your Shopping Cart</h3>
-    <table class="table" style="margin: 3px; font-size: x-large; border: 1px solid #ddd;width: 100%;">
+    <table class="table" style="margin: 3px;  border: 1px solid #ddd;width: 100%;">
     <thead>
     <tr>   
-        <th>Select</th> 
+       
         <th>Image</th>
         <th>Name</th>
         <th>Price</th>
@@ -121,31 +130,31 @@
 
     {% for i in items %}
     <tr>
-        <td>
-            <input type="checkbox" name="selected_items" value="{{ i.id }}" style="width: 15%;">
-        </td>   
+        
         
         <td><img src="{{ i.product.image.url }}" alt="{{ i.product.name }}" width="80" height="80"></td>
         <td>{{ i.product.name }}</td>
         <td>₹{{ i.product.price }}</td>
         <td>
         <div class="quantity-control">
-            <form action="{% url 'decrease_cart_quantity' %}" method="post" style="display:inline; padding-top: 5px;">
+            <form action="{% url 'decrease_cart_quantity' %}" method="post" style="display:inline;">
                 {% csrf_token %}
                 <input type="hidden" name="item_id" value="{{ i.id }}">
-                <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></button>
+                <span>  <i class="bi bi-dash-circle-fill fs-5"></i></span>
+               
             </form>
             <span class="quantity">{{ i.quantity }}</span>
-            <form action="{% url 'increase_cart_quantity' %}" method="post" style="display:inline; padding-top: 5px;">
+            <form action="{% url 'increase_cart_quantity' %}" method="post" style="display:inline; ">
                 {% csrf_token %}
                 <input type="hidden" name="item_id" value="{{ i.id }}">
-                <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-plus-lg"></i></button>
+                <i class="bi bi-plus-circle-fill fs-5"></i>
             </form>
         </div>
         </td>
         
         <td>₹{{ i.product.price|multiply:i.quantity }}</td>
-        <td><a href="{% url 'remove_from_cart' i.id %}" class="remove-item">Remove</a></td>
+
+        <td><a href="{% url 'remove_from_cart' i.id %}" class="remove-item"><i class="bi bi-trash3-fill"></i></a></td>
     </tr>
     {% endfor %}
     </tbody>

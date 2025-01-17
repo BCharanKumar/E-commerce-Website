@@ -1,16 +1,33 @@
+
 {% extends 'Theme.html' %}
 
 {% block main %}
+{% load filters %}
 <style>
+    body
+    {
+        font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+      color: #333;
+    }
     /* Product Card Styles */
     .card {
         transition: all 0.3s ease-in-out;
         border-radius: 15px; /* Slightly rounded corners for a softer look */
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); /* Soft shadow for elegance */
-        background-color: #ffffff;
+        
         overflow: hidden;
         border: 1px solid #ddd; /* Lighter border for subtle contrast */
     }
+
+    .card-header {
+    background-color: rgba(5, 2, 255, 0.045);
+    height: 220px; /* adjust the height to fit your image size */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
     .card:hover {
         transform: scale(1.05);
@@ -146,13 +163,7 @@
         box-shadow: 0 2px 8px rgba(52, 152, 219, 0.5);
     }
 
-    body {
-            background-image: url('https://wallpaperaccess.com/full/1808558.jpg'); /* Replace with the image URL */
-            background-size:cover; /* Make the image cover the entire page */
-            position: relative;
-           backdrop-filter: blur(10px);
-        
-        }
+    
         /*
         .body::before {
   content: '';
@@ -166,6 +177,15 @@
   backdrop-filter: blur(50px);
 }
 */
+.star {
+    font-size: 20px;
+    color: #ccc; /* Default empty star color */
+    margin-right: 5px;
+}
+
+.star.filled {
+    color: green /* Filled star color */
+}
 
    
 </style>
@@ -173,26 +193,75 @@
 
 
     <!-- Products list columns -->
-    <div class="col-md-12">
+    <div class="col-md-12 "  style="position: relative;top: 100px;font-family:a;"  >
         <div class="row">
             {% for i in products %}
             <div class="col-md-3 mt-4">
-                <div class="card mb-5 shadow hover-effect" style="height: 400px; width: 100%; text-align: center;">
-                    <div class="card-header mt-3">
-                       <a href="{% url 'about_product' i.id %}"> <img src="{{i.image.url}}" alt="" class="img-thumbnail" width="130px" height="190px"></a>
+                <div class="card mb-5 shadow" style="height: 400px; width: 100%; text-align: center;">
+                    <div class="card-header">
+                        <a href="{% url 'about_product' i.id %}">
+                            <img src="{{i.image.url}}" alt="" class="img-thumbnail" width="130px" height="190px">
+                        </a>
                     </div>
+                    
 
                     <div class="card-body">
-                        <h3 style="color: red; font-weight: bold;">Price: {{i.price}}</h3>
+                        
                         <h3 style="color: blue; font-weight: bold;">{{i.name}}</h3>
-                        <h4>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                        </h4>
+                        <h3 style="color: red; font-weight: bold;">Price: {{i.price}} /-</h3>
+                
+
+                     <h4>
+                        
+                        {% if i.avg_rating|float_filter == 0.0 %}
+
+                        <span class="star ">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>({{ i.rating_count}})
+                       
+                        {% elif i.avg_rating|float_filter >= 0.5 and i.avg_rating|float_filter <= 1.5 %}
+
+                        <span class="star filled">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>({{ i.rating_count}})
+
+                        {% elif i.avg_rating|float_filter >= 1.5 and i.avg_rating|float_filter <= 2.5 %} 
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>({{ i.rating_count}})
+                        {% elif i.avg_rating|float_filter >= 2.5 and i.avg_rating|float_filter <= 3.5 %} 
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star">&#9734;</span>
+                        <span class="star">&#9734;</span>({{ i.rating_count}})
+
+                        {% elif i.avg_rating|float_filter >= 3.5 and i.avg_rating|float_filter <= 4.5 %} 
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star">&#9734;</span>({{ i.rating_count}})
+
+                        {% elif i.avg_rating|float_filter >= 4.5%} 
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>
+                        <span class="star filled">&#9734;</span>({{ i.rating_count}})
+
+                       {% endif  %}
+                    </h4>
                     </div>
+                    
+                    
+                    
 
                     <div class="card-footer">
                         <div class="button-container">
@@ -216,3 +285,7 @@
 </div>
 
 {% endblock %}
+
+
+
+

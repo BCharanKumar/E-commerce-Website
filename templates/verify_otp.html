@@ -3,7 +3,11 @@
 {% block main %}
 <style>
     body{
+        margin-top: 220;
         background-color:red
+        font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+      color: #333;
     }
     .height-100
     {
@@ -41,7 +45,7 @@
 
 
 
-<form method="POST" class="border shadow" action="{% url 'verify_otp' %}" style="width: 500px;align-items: center;">
+<form method="POST" class="border shadow" action="{% url 'verify_otp' %}" style="width: 500px;align-items: center;margin-top: 150px;">
 
 {% csrf_token %}
 {% if error_msg %}

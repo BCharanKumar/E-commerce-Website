@@ -9,9 +9,7 @@ from django.contrib.auth.decorators import login_required
 from app.forms import *
 from django.shortcuts import render, redirect
 from twilio.rest import Client
-from django.contrib import messages
-
-
+from django.db.models import Avg,Count
 
 # Create your views here.
 
@@ -22,19 +20,32 @@ def display_data(request):
     #return HttpResponse('<center><h1> Welcome To My E-commerce Website</h1></center>')
     return render(request,'index.html',d)
 
-
 def home(request):
+    category = Category.objects.all()
+    CID = request.GET.get('category')
     
-    category=Category.objects.all()
-    CID=request.GET.get('category')
     if CID:
-        products=Product.get_category_id(CID)
+        products = Product.get_category_id(CID)
     else:
-        products=Product.objects.all()
+        products = Product.objects.all()
     
-    d={'products':products,'category':category}
-    return render(request,'data.html',d)
+    for product in products:
+        ratings = Rating.objects.filter(product=product)
+        
+        if ratings:
+            product.avg_rating = ratings.aggregate(Avg('rating'))['rating__avg']
+            product.rating_count = ratings.count()
+        else:
+            product.avg_rating = 0
+            product.rating_count = 0
+    
+    d = {'products': products, 'category': category}
+    return render(request, 'data.html', d)
 
+
+
+def theme(request):
+    return HttpResponseRedirect(reverse('home'))
 
 #View for singup process
 def singup(request):
@@ -164,31 +175,6 @@ def login_user(request):
             d={'error':error_msg}
             return render(request,'login.html',d)
 
-def change_password(request):
-    if request.method == 'POST':
-        pwd = request.POST['pwd']
-        rpwd = request.POST['rpwd']
-        email = request.session.get('email')
-        if email:
-            try:
-                User = Customer.objects.get(email=email)
-            except Customer.DoesNotExist:
-                messages.error(request, 'Invalid Email')
-                return render(request, 'change_password.html')
-            if pwd == rpwd:
-                User.password = pwd
-                User.save()
-                messages.success(request, 'Password changed successfully!')
-                return redirect('home')
-            else:
-                messages.error(request, 'New password and confirm password do not match!')
-                return render(request, 'change_password.html')
-        else:
-            messages.error(request, 'You must be logged in to change your password!')
-            return redirect('login_user')
-    return render(request, 'change_password.html')
-
-
 
 def logout_user(request):
     if 'email' in request.session:
@@ -196,9 +182,7 @@ def logout_user(request):
     
     return redirect('login_user')
 
-
-
-
+  
  
 def add_to_cart(request, id):
     email = request.session.get('email')
@@ -313,11 +297,13 @@ def view_cart(request):
 #     return render(request, 'cart.html', {'items': items, 'total_price': total_price})
 
 
-def about_product(request,product_id):
-    products=Product.objects.all()
+def about_product(request, product_id):
+    products = Product.objects.all()
+    
     if request.method == 'POST':
         product = Product.objects.get(id=product_id)
         email = request.session.get('email')
+        
         if email:
             customer = Customer.getemail(email)
             order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -329,8 +315,16 @@ def about_product(request,product_id):
             return redirect('login_user')
     else:
         product = Product.objects.get(id=product_id)
-        return render(request, 'About_product.html', {'product': product})
-    #return render(request,'About_product.html')
+        ratings = Rating.objects.filter(product=product)
+        avg_rating = 0
+        rating_count = 0
+        
+        if ratings:
+            avg_rating = ratings.aggregate(Avg('rating'))['rating__avg']
+            rating_count = ratings.count()
+        
+        return render(request, 'About_product.html', {'product': product, 'avg_rating': avg_rating, 'rating_count': rating_count})
+
 
 
 def buy_now(request, product_id):
@@ -497,5 +491,55 @@ def thank_you(request):
 
 def contact(request):
     return render(request,'contact.html')
+
+
+from django.contrib import messages
+
+def change_password(request):
+    if request.method == 'POST':
+        pwd = request.POST['pwd']
+        rpwd = request.POST['rpwd']
+        email = request.session.get('email')
+        if email:
+            try:
+                User = Customer.objects.get(email=email)
+            except Customer.DoesNotExist:
+                messages.error(request, 'Invalid Email')
+                return render(request, 'change_password.html')
+            if pwd == rpwd:
+                User.password = pwd
+                User.save()
+                messages.success(request, 'Password changed successfully!')
+                return redirect('home')
+            else:
+                messages.error(request, 'New password and confirm password do not match!')
+                return render(request, 'change_password.html')
+        else:
+            messages.error(request, 'You must be logged in to change your password!')
+            return redirect('login_user')
+    return render(request, 'change_password.html')
+
+# def submit_rating(request):
+#     products=Product.objects.all()
+#     if request.method == 'POST':
+#         product_id = request.POST.get('product')
+#         rating = request.POST.get('rating')
+#         comment = request.POST.get('comment')
+
+#         product = Product.objects.get(id=product_id)
+
+#         Rating.objects.create(
+#             product=product,
+#             rating=rating,
+#             comment=comment
+#         )
+
+#         return redirect('home')
+#     else:
+#         products = Product.objects.all()
+
+#     return render(request,'rating.html',{'products': products})
+
+
 
 

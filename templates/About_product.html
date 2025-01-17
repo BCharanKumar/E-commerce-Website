@@ -5,10 +5,11 @@
     {% endblock %}
 
 {% block main %}
+{% load filters %}
 <style>
   body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
       color: #333;
   }
 
@@ -91,17 +92,94 @@
       margin-top: 20px;
       display: inline-block;
   }
+  /* body {
+            background-image: url('https://wallpaperaccess.com/full/1808558.jpg');
+            background-size:cover; 
+            position: relative;
+            backdrop-filter: blur(10px);
+        
+        } */
+        .star {
+    font-size: 20px;
+    color: #ed1b1b; /* Default empty star color */
+    margin-right: 5px;
+}
+
+.star.filled {
+    color: rgb(30, 30, 32); /* Filled star color */
+}
+
+
+
+
 </style>
 <center>
-  <img src="{{ product.image.url }}" alt="{{ product.name }}" width="250" height="250" class="mt-3">
-  <h1>Buy Now: {{ product.name }}</h1>
-      
-      <p>Price: {{ product.price }}</p>
-      <p>Description -: {{product.desc}}</p>
+    <div style="margin-top: 120px; width: 800px;height: 730px;padding: 25px;">
+    
+  <img src="{{ product.image.url }}" alt="{{ product.name }}" width="250" height="250" class="mb-5">
+  <h1> {{ product.name }}</h1>
 
-     
-        
-      <button type="button" class="btn btn-danger" style="float: left;">
+
+  <div style="display: flex;align-items: center;text-align: left;padding-left: 200px;">
+   <h2>
+    <i class="bi bi-arrow-down" style="color: greenyellow;display: block;text-decoration: none">78% </i> <h2 style="text-decoration:line-through;">   59999<h1 style="color: black;" class="mt-2"><i class="bi bi-currency-rupee"></i>{{ product.price }}</h1>
+      </h2></h2>
+  </div>
+  <div >
+  <h1 style="color: rgb(58, 28, 225);">
+                        
+    {% if avg_rating|float_filter == 0.0 %}
+    <span class="star-group" style="font-size: 24px;">
+
+    <span class="star " >&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>({{rating_count}})
+   </span>
+    {% elif avg_rating|float_filter >= 0.5 and avg_rating|float_filter <= 1.5 %}
+
+    <span class="star filled">&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>({{rating_count}})
+
+    {% elif avg_rating|float_filter >= 1.5 and avg_rating|float_filter <= 2.5 %} 
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>({{rating_count}})
+    {% elif avg_rating|float_filter >= 2.5 and avg_rating|float_filter <= 3.5 %} 
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star">&#9734;</span>
+    <span class="star">&#9734;</span>({{ rating_count}})
+
+    {% elif avg_rating|float_filter >= 3.5 and avg_rating|float_filter <= 4.5 %} 
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star">&#9734;</span>({{ rating_count}})
+
+    {% elif avg_rating|float_filter >= 4.5%} 
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>
+    <span class="star filled">&#9734;</span>({{ product.rating_count}})
+
+   {% endif  %}
+</h1>
+ 
+        <p class="mb-1"> {{product.desc}}</p>
+
+     </div> 
+   
+      <button type="button" class="btn btn-danger mt-3 mb-5" style="float: left;">
         {% if product.id %}
            
         <a href="{% url 'add_to_cart' product.id %}"  style="display:inline;">Add to cart</a>
@@ -110,12 +188,13 @@
         {% endif %}
     </button>
 
-      <form action="{% url 'buy_now' product.id %}" method="post" style="float: right;padding: 50px;">
+      <form action="{% url 'buy_now' product.id %}" method="post" style=" float:right;">
         {% csrf_token %}
         <button type="submit" class="btn btn-primary">Buy Now</button>
     
       </form>
-    </center>
+   
+    </center>    </div>  
     {% endblock %}
     
     

@@ -24,6 +24,7 @@ from app.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/',home,name='home'),
+    path('theme/',theme,name='theme'),
     path('display_data/',display_data,name='display_data'),
     path('singup/',singup,name='singup'),
    
@@ -48,7 +49,7 @@ urlpatterns = [
     
     path('thank_you/',thank_you, name='thank_you'),
     path('contact/',contact,name='contact'),
-
+  
 
 
     

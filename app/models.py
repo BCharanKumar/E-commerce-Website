@@ -51,6 +51,24 @@ class Customer(models.Model):
             return False
 
 
+from django.db import models
+from .models import Product  # Assuming you already have a Product model
+
+class Rating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)  # Link to the Product model
+    user = models.CharField(max_length=255, blank=True, null=True)  # Just a name, not linked to User model
+    rating = models.IntegerField(choices=[(i, i) for i in range(1, 6)], default=0)  # Rating scale from 1 to 5
+    comment = models.TextField(blank=True, null=True)  # Optional comment field
+
+    def __str__(self):
+        return f"Rating for {self.product.name} by {self.user if self.user else 'Anonymous'} - {self.rating}"
+
+    class Meta:
+        unique_together = ('product', 'user')  # Ensure each user can rate a product only once
+
+
+
+
 
 class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -89,4 +107,5 @@ class OrderAddress(models.Model):
     state = models.CharField(max_length=50)
     pincode = models.CharField(max_length=10)
    
+
 

@@ -14,3 +14,4 @@ class ProductDocument(Document):
     class Django:
         model = Product
 
+
