@@ -136,20 +136,30 @@
         <td>{{ i.product.name }}</td>
         <td>₹{{ i.product.price }}</td>
         <td>
-        <div class="quantity-control">
-            <form action="{% url 'decrease_cart_quantity' %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <input type="hidden" name="item_id" value="{{ i.id }}">
-                <span>  <i class="bi bi-dash-circle-fill fs-5"></i></span>
-               
-            </form>
-            <span class="quantity">{{ i.quantity }}</span>
-            <form action="{% url 'increase_cart_quantity' %}" method="post" style="display:inline; ">
-                {% csrf_token %}
-                <input type="hidden" name="item_id" value="{{ i.id }}">
-                <i class="bi bi-plus-circle-fill fs-5"></i>
-            </form>
-        </div>
+            <div class="quantity-control">
+                <!-- Decrease Quantity Form -->
+                <form action="{% url 'decrease_cart_quantity' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="item_id" value="{{ i.id }}">
+                    <button type="submit" class="btn btn-link p-0">
+                        <i class="bi bi-dash-circle-fill fs-5 text-dark"></i>
+                    </button>
+                </form>
+                
+                <!-- Display Quantity -->
+                <span class="quantity">{{ i.quantity }}</span>
+                
+                <!-- Increase Quantity Form -->
+                <form action="{% url 'increase_cart_quantity' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="item_id" value="{{ i.id }}">
+                    <button type="submit" class="btn btn-link p-0">
+                        <i class="bi bi-plus-circle-fill fs-5 text-dark"></i>
+                    </button>
+                </form>
+            </div>
+            
+            
         </td>
         
         <td>₹{{ i.product.price|multiply:i.quantity }}</td>
